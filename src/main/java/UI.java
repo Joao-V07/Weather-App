@@ -9,12 +9,6 @@ JLabel title;
 JLabel shadow;
 JLabel guideLbl;
 
-    public UI(){
-        createFrame();
-        createComponents();
-        addActions();
-        frame.setVisible(true);
-    }
     void createFrame(){
         frame = new JFrame("Weather App");
         frame.setSize(600, 500);
@@ -37,7 +31,7 @@ title = new JLabel("Weather App");
     shadow.setFont(new Font("Arial", Font.BOLD, 40));
     shadow.setHorizontalAlignment(SwingConstants.CENTER);
     shadow.setForeground(Color.BLACK);
-searchBox = new JTextField("Search");
+searchBox = new JTextField("Enter city or city, country (e.g. Sydney or Rio de Janeiro, BR)");
     createAndCentralize(searchBox, 250, 300, 40);
 guideLbl = new JLabel("Type the name of the city you're looking for:");
     createAndCentralize(guideLbl, 220, 300, 20);
@@ -54,6 +48,12 @@ guideLbl = new JLabel("Type the name of the city you're looking for:");
         int x = (frame.getWidth() - component.getWidth()) / 2;
         component.setBounds(x, y, w, h);
         frame.add(component);
+    }
+    public void createUI(){
+        createFrame();
+        createComponents();
+        addActions();
+        frame.setVisible(true);
     }
 }
 
