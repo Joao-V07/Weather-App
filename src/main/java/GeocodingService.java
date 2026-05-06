@@ -23,13 +23,13 @@ public double[] APIGCRequest(String city){
             Double lon = array.get(0).getAsJsonObject().get("lon").getAsDouble();
             return new double[]{lat, lon};
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("deu merda irmao");
         }
         return null;
     }
-    private String BuildURL(String city, String countryCode){
-        String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + ","
-                     + "," + countryCode;
+    private String BuildURL(String city, String country){
+        String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city
+                     + "," + country;
         url += "&limit=5&appid=" + apiKey;
         return url;
     }

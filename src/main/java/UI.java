@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class UI {
 JFrame frame;
@@ -31,8 +33,9 @@ title = new JLabel("Weather App");
     shadow.setFont(new Font("Arial", Font.BOLD, 40));
     shadow.setHorizontalAlignment(SwingConstants.CENTER);
     shadow.setForeground(Color.BLACK);
-searchBox = new JTextField("Enter city or city, country (e.g. Sydney or Rio de Janeiro, BR)");
-    createAndCentralize(searchBox, 250, 300, 40);
+searchBox = new JTextField("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
+    searchBox.setForeground(Color.GRAY);
+    createAndCentralize(searchBox, 250, 380, 40);
 guideLbl = new JLabel("Type the name of the city you're looking for:");
     createAndCentralize(guideLbl, 220, 300, 20);
     guideLbl.setFont(new Font("Open Sans", Font.BOLD, 13));
@@ -40,7 +43,8 @@ guideLbl = new JLabel("Type the name of the city you're looking for:");
     }
 
     void addActions(){
-
+        searchBtnClicked();
+        focusListener();
     }
 
     void createAndCentralize(JComponent component, int y, int w, int h){
@@ -49,11 +53,43 @@ guideLbl = new JLabel("Type the name of the city you're looking for:");
         component.setBounds(x, y, w, h);
         frame.add(component);
     }
+
     public void createUI(){
         createFrame();
         createComponents();
         addActions();
         frame.setVisible(true);
+        SwingUtilities.invokeLater(() -> searchBtn.requestFocusInWindow());
     }
-}
+
+    private void searchBtnClicked(){
+        WeatherService weatherAPI = new WeatherService();
+        FormattingService formatter = new FormattingService();
+        searchBtn.addActionListener(e -> {
+            String[] location = formatter.formatInput(searchBox.getText());
+            String city = location[0];
+            String country = location[1];
+            weatherAPI.APIRequest(city, country);
+                });
+    }
+    private void focusListener(){
+        searchBox.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (searchBox.getText().equals("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)")) {
+                    searchBox.setText("");
+                    searchBox.setForeground(Color.BLACK);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                    if (searchBox.getText().isEmpty()){
+                        searchBox.setText("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
+                        searchBox.setForeground(Color.GRAY);
+            }
+        }
+    });
+        }
+    }
+
 
