@@ -10,36 +10,46 @@ JButton searchBtn;
 JLabel title;
 JLabel shadow;
 JLabel guideLbl;
+CardLayout cardLayout = new CardLayout();
+JPanel mainPanel = new JPanel(cardLayout);
+JPanel searchPanel = new JPanel(null);
+JPanel resultPanel = new JPanel(null);
 
     void createFrame(){
         frame = new JFrame("Weather App");
         frame.setSize(600, 500);
-        frame.setLayout(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setBackground(new Color(150, 201, 254));
+        searchPanel.setBackground(new Color(150, 201, 254));
+        resultPanel.setBackground(new Color(150, 201, 254));
+        mainPanel.add(searchPanel, "search");
+        mainPanel.add(resultPanel, "result");
+        frame.add(mainPanel);
     }
 
     void createComponents(){
-searchBtn = new JButton("Search");
-    createAndCentralize(searchBtn, 350, 100, 40);
-title = new JLabel("Weather App");
-    createAndCentralize(title, 50, 300, 50);
-    title.setFont(new Font("Arial", Font.BOLD, 40));
-    title.setHorizontalAlignment(SwingConstants.CENTER);
-    title.setForeground(new Color(247, 209, 75));
-    shadow = new JLabel("Weather App");
-    createAndCentralize(shadow, 53, 299, 49);
-    shadow.setFont(new Font("Arial", Font.BOLD, 40));
-    shadow.setHorizontalAlignment(SwingConstants.CENTER);
-    shadow.setForeground(Color.BLACK);
-searchBox = new JTextField("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
-    searchBox.setForeground(Color.GRAY);
-    createAndCentralize(searchBox, 250, 380, 40);
-guideLbl = new JLabel("Type the name of the city you're looking for:");
-    createAndCentralize(guideLbl, 220, 300, 20);
-    guideLbl.setFont(new Font("Open Sans", Font.BOLD, 13));
-    guideLbl.setHorizontalAlignment(SwingConstants.CENTER);
+        searchBtn = new JButton("Search");
+            createAndCentralize(searchBtn, 350, 100, 40, searchPanel);
+
+        title = new JLabel("Weather App");
+            createAndCentralize(title, 50, 300, 50, searchPanel);
+            title.setFont(new Font("Arial", Font.BOLD, 40));
+            title.setHorizontalAlignment(SwingConstants.CENTER);
+            title.setForeground(new Color(247, 209, 75));
+            shadow = new JLabel("Weather App");
+            createAndCentralize(shadow, 53, 299, 49, searchPanel);
+            shadow.setFont(new Font("Arial", Font.BOLD, 40));
+            shadow.setHorizontalAlignment(SwingConstants.CENTER);
+            shadow.setForeground(Color.BLACK);
+
+        searchBox = new JTextField("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
+            searchBox.setForeground(Color.GRAY);
+            createAndCentralize(searchBox, 250, 380, 40, searchPanel);
+
+        guideLbl = new JLabel("Type the name of the city you're looking for:");
+            createAndCentralize(guideLbl, 220, 300, 20, searchPanel);
+            guideLbl.setFont(new Font("Open Sans", Font.BOLD, 13));
+            guideLbl.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     void addActions(){
@@ -47,11 +57,11 @@ guideLbl = new JLabel("Type the name of the city you're looking for:");
         focusListener();
     }
 
-    void createAndCentralize(JComponent component, int y, int w, int h){
+    void createAndCentralize(JComponent component, int y, int w, int h, JPanel panel){
         component.setSize(w, h);
         int x = (frame.getWidth() - component.getWidth()) / 2;
         component.setBounds(x, y, w, h);
-        frame.add(component);
+        panel.add(component);
     }
 
     public void createUI(){
@@ -70,6 +80,7 @@ guideLbl = new JLabel("Type the name of the city you're looking for:");
             String city = location[0];
             String country = location[1];
             weatherAPI.APIRequest(city, country);
+            cardLayout.show(mainPanel, "result");
                 });
     }
     private void focusListener(){
