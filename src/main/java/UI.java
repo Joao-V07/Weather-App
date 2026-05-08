@@ -1,3 +1,5 @@
+import models.WeatherData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
@@ -73,15 +75,27 @@ JPanel resultPanel = new JPanel(null);
     }
 
     private void searchBtnClicked(){
-        WeatherService weatherAPI = new WeatherService();
-        FormattingService formatter = new FormattingService();
         searchBtn.addActionListener(e -> {
-            String[] location = formatter.formatInput(searchBox.getText());
-            String city = location[0];
-            String country = location[1];
-            weatherAPI.APIRequest(city, country);
-            cardLayout.show(mainPanel, "result");
+            WeatherController controller = new WeatherController();
+            WeatherData data = controller.search(searchBox.getText());
+            if (data != null) {
+                cardLayout.show(mainPanel, "result");
+                System.out.println(data.weatherCondition);
+                System.out.println(data.weatherDescription);
+                System.out.println(data.temp);
+                System.out.println(data.feelsLike);
+                System.out.println(data.tempMax);
+                System.out.println(data.tempMin);
+                System.out.println(data.humidity);
+                System.out.println(data.windSpeed);
+                System.out.println(data.windDir);
+
+
+            } else{
+                System.out.println("deu bosta");
+            }
                 });
+
     }
     private void focusListener(){
         searchBox.addFocusListener(new FocusListener() {

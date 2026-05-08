@@ -5,23 +5,24 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import models.Coordinates;
 
 public class GeocodingService {
     String apiKey = System.getenv("GEO_CODING_KEY");
     HttpClient client = HttpClient.newHttpClient();
-public double[] APIGCRequest(String city){
-    return APIGCRequest(city, null);
-}
-    public double[] APIGCRequest(String city, String countryCode) {
+    public Coordinates APIGCRequest(String city){
+        return APIGCRequest(city, null);
+    }
+    public Coordinates APIGCRequest(String city, String countryCode) {
         String url = BuildURL(city, countryCode);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             String body = response.body();
             JsonArray array = JsonParser.parseString(body).getAsJsonArray();
-            Double lat = array.get(0).getAsJsonObject().get("lat").getAsDouble();
-            Double lon = array.get(0).getAsJsonObject().get("lon").getAsDouble();
-            return new double[]{lat, lon};
+            double lat = array.get(0).getAsJsonObject().get("lat").getAsDouble();
+            double lon = array.get(0).getAsJsonObject().get("lon").getAsDouble();
+            return new Coordinates(lat, lon);
         } catch (IOException | InterruptedException e) {
             System.out.println("deu merda irmao");
         }
