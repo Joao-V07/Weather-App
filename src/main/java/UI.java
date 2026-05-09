@@ -12,14 +12,19 @@ JButton searchBtn;
 JLabel title;
 JLabel shadow;
 JLabel guideLbl;
+
+JLabel temp;
+JLabel weather;
+JLabel weatherDesc;
 CardLayout cardLayout = new CardLayout();
 JPanel mainPanel = new JPanel(cardLayout);
 JPanel searchPanel = new JPanel(null);
 JPanel resultPanel = new JPanel(null);
 
+
     void createFrame(){
         frame = new JFrame("Weather App");
-        frame.setSize(600, 500);
+        frame.setSize(800, 500);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         searchPanel.setBackground(new Color(150, 201, 254));
@@ -29,7 +34,7 @@ JPanel resultPanel = new JPanel(null);
         frame.add(mainPanel);
     }
 
-    void createComponents(){
+    void createSearchComponents(){
         searchBtn = new JButton("Search");
             createAndCentralize(searchBtn, 350, 100, 40, searchPanel);
 
@@ -54,6 +59,24 @@ JPanel resultPanel = new JPanel(null);
             guideLbl.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
+    void createResultComponents(){
+    temp = new JLabel("00°");
+        temp.setFont(new Font("Sans-Serif", Font.PLAIN, 120));
+        setSize(temp, 100, 1);
+        temp.setForeground(Color.white);
+        resultPanel.add(temp);
+    weather = new JLabel("TEXT");
+        weather.setFont(new Font("SansSerif", Font.PLAIN, 50));
+        setSize(weather, 285, 25);
+        weather.setForeground(Color.white);
+        resultPanel.add(weather);
+    weatherDesc = new JLabel("it's very hot");
+    weatherDesc.setFont(new Font("Arial", Font.PLAIN, 30));
+    setSize(weatherDesc, 285, 90);
+    weatherDesc.setForeground(Color.white);
+    resultPanel.add(weatherDesc);
+    }
+
     void addActions(){
         searchBtnClicked();
         focusListener();
@@ -68,10 +91,11 @@ JPanel resultPanel = new JPanel(null);
 
     public void createUI(){
         createFrame();
-        createComponents();
+        createSearchComponents();
+        createResultComponents();
         addActions();
         frame.setVisible(true);
-        SwingUtilities.invokeLater(() -> searchBtn.requestFocusInWindow());
+        //SwingUtilities.invokeLater(() -> searchBtn.requestFocusInWindow());
     }
 
     private void searchBtnClicked(){
@@ -79,24 +103,15 @@ JPanel resultPanel = new JPanel(null);
             WeatherController controller = new WeatherController();
             WeatherData data = controller.search(searchBox.getText());
             if (data != null) {
-                cardLayout.show(mainPanel, "result");
-                System.out.println(data.weatherCondition);
-                System.out.println(data.weatherDescription);
-                System.out.println(data.temp);
-                System.out.println(data.feelsLike);
-                System.out.println(data.tempMax);
-                System.out.println(data.tempMin);
-                System.out.println(data.humidity);
-                System.out.println(data.windSpeed);
-                System.out.println(data.windDir);
-
-
-            } else{
-                System.out.println("deu bosta");
-            }
+                cardLayout.show(mainPanel, "result");}
                 });
+        searchBox.addActionListener(e ->{
+
+            cardLayout.show(mainPanel, "result");
+        });
 
     }
+
     private void focusListener(){
         searchBox.addFocusListener(new FocusListener() {
             @Override
@@ -114,7 +129,13 @@ JPanel resultPanel = new JPanel(null);
             }
         }
     });
+
         }
+
+    private void setSize(JComponent comp, int x, int y){
+        Dimension pref = comp.getPreferredSize();
+        comp.setBounds(x, y, pref.width + 10, pref.height + 1);
     }
+}
 
 
