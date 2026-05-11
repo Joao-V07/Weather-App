@@ -14,8 +14,12 @@ JLabel shadow;
 JLabel guideLbl;
 
 JLabel temp;
+JLabel feelsLike;
 JLabel weather;
 JLabel weatherDesc;
+JLabel humidity;
+JLabel windSpeed;
+JLabel windDir;
 CardLayout cardLayout = new CardLayout();
 JPanel mainPanel = new JPanel(cardLayout);
 JPanel searchPanel = new JPanel(null);
@@ -61,18 +65,23 @@ JPanel resultPanel = new JPanel(null);
 
     void createResultComponents(){
     temp = new JLabel("00°");
-        temp.setFont(new Font("Sans-Serif", Font.PLAIN, 120));
+        temp.setFont(new Font("SansSerif", Font.PLAIN, 120));
         setSize(temp, 100, 1);
         temp.setForeground(Color.white);
         resultPanel.add(temp);
-    weather = new JLabel("TEXT");
+    feelsLike = new JLabel("feels like: 00°");
+        feelsLike.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        setSize(feelsLike, 285, 90);
+        feelsLike.setForeground(Color.white);
+        resultPanel.add(feelsLike);
+    weather = new JLabel("TEXT,");
         weather.setFont(new Font("SansSerif", Font.PLAIN, 50));
         setSize(weather, 285, 25);
         weather.setForeground(Color.white);
         resultPanel.add(weather);
     weatherDesc = new JLabel("it's very hot");
     weatherDesc.setFont(new Font("Arial", Font.PLAIN, 30));
-    setSize(weatherDesc, 285, 90);
+    setSize(weatherDesc, 430, 50);
     weatherDesc.setForeground(Color.white);
     resultPanel.add(weatherDesc);
     }
