@@ -23,12 +23,11 @@ public class WeatherService {
             String weatherDescription = json.get("weather").getAsJsonArray().get(0).getAsJsonObject().get("description").getAsString();
             int temp = main.get("temp").getAsInt();
             int feelsLike = main.get("feels_like").getAsInt();
-            int tempMax = main.get("temp_max").getAsInt();
-            int tempMin = main.get("temp_min").getAsInt();
             int humidity = main.get("humidity").getAsInt();
             int windSpeed = json.get("wind").getAsJsonObject().get("speed").getAsInt();
             int windDir = json.get("wind").getAsJsonObject().get("deg").getAsInt();
-            return new WeatherData(weatherCondition, weatherDescription, temp, feelsLike, tempMax, tempMin, humidity, windSpeed, windDir);
+            int cloudiness = json.get("clouds").getAsJsonObject().get("all").getAsInt();
+            return new WeatherData(weatherCondition, weatherDescription, temp, feelsLike, humidity, windSpeed, windDir, cloudiness);
         } catch(IOException | InterruptedException e){
             System.out.println("api do clima deu certo nao");
             return null;
