@@ -9,8 +9,10 @@ public class WeatherData {
     public double windSpeed;
     public int windDir;
     public int cloudiness;
+    public String city;
+    public String country;
 
-    public WeatherData(String weatherCondition, String weatherDescription, int temp, int feelsLike, int humidity, double windSpeed, int windDir, int cloudiness){
+    public WeatherData(String weatherCondition, String weatherDescription, int temp, int feelsLike, int humidity, double windSpeed, int windDir, int cloudiness, String city, String country){
         this.weatherCondition = weatherCondition;
         this.weatherDescription = weatherDescription;
         this.temp = temp;
@@ -19,5 +21,7 @@ public class WeatherData {
         this.windSpeed = windSpeed;
         this.windDir = windDir;
         this.cloudiness = cloudiness;
+        this.city = city;
+        this.country = country;
     }
 }

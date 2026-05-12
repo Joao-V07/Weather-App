@@ -8,8 +8,11 @@ public class WeatherController {
     WeatherService weatherApi = new WeatherService();
 
     public WeatherData search(String input){
-        Location location = formatter.formatInput(input);
-        Coordinates coords = geocoder.APIGCRequest(location.city, location.country);
-        return weatherApi.APIRequest(coords.lat, coords.lon);
+            if (input.equals("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)")){
+
+            }
+            Location location = formatter.formatInput(input);
+            Coordinates coords = geocoder.APIGCRequest(location.city, location.country);
+            return weatherApi.APIRequest(coords.lat, coords.lon);
     }
 }
