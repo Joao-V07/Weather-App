@@ -29,7 +29,8 @@ public class WeatherService {
             int cloudiness = json.get("clouds").getAsJsonObject().get("all").getAsInt();
             String city = json.get("name").getAsString();
             String country = json.get("sys").getAsJsonObject().get("country").getAsString();
-            return new WeatherData(weatherCondition, weatherDescription, temp, feelsLike, humidity, windSpeed, windDir, cloudiness, city, country);
+            String code = String.valueOf(response.statusCode());
+            return new WeatherData(weatherCondition, weatherDescription, temp, feelsLike, humidity, windSpeed, windDir, cloudiness, city, country, code);
         } catch(IOException | InterruptedException e){
             System.out.println("api do clima deu certo nao");
             return null;

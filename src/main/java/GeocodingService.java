@@ -32,6 +32,7 @@ public class GeocodingService {
         String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city
                      + "," + country;
         url += "&limit=5&appid=" + apiKey;
+        System.out.println(url);
         return url;
     }
 }

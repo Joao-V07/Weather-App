@@ -174,11 +174,11 @@ JButton returnBtn = new JButton();
             WeatherController controller = new WeatherController();
             if (!searchBox.getText().equals("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)")){
             WeatherData data = controller.search(searchBox.getText());
-            if (data != null) {
+            if (data != null && data.code.equals("200")) {
                 updateResultComponents(data);
                 cardLayout.show(mainPanel, "result");}}
             else {
-                JOptionPane.showMessageDialog(null, "City cannot be empty, please write down a city name.", "City name is empty", JOptionPane.WARNING_MESSAGE);
+
             }
                 });
         searchBox.addActionListener(e ->{
@@ -219,6 +219,10 @@ JButton returnBtn = new JButton();
     private void setSize(JComponent comp, int x, int y){
         Dimension pref = comp.getPreferredSize();
         comp.setBounds(x, y, pref.width + 10, pref.height + 1);
+    }
+
+    private void APIErrorHandling(WeatherData data){
+        if (data.code.equals("400")) JOptionPane.showMessageDialog(null, "There was a problem with the App's Logic, please contact the .", "City name is empty", JOptionPane.WARNING_MESSAGE);
     }
 }
 
