@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 
 public class WeatherService {
     HttpClient client = HttpClient.newHttpClient();
-    public WeatherData APIRequest(double lat, double lon){
+    public WeatherData APIRequest(double lat, double lon, String city, String country){
         String url = buildUrl(lat, lon);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
         try{
@@ -27,8 +27,8 @@ public class WeatherService {
             int windSpeed = json.get("wind").getAsJsonObject().get("speed").getAsInt();
             int windDir = json.get("wind").getAsJsonObject().get("deg").getAsInt();
             int cloudiness = json.get("clouds").getAsJsonObject().get("all").getAsInt();
-            String city = json.get("name").getAsString();
-            String country = json.get("sys").getAsJsonObject().get("country").getAsString();
+            String cityName = city;
+            String countryName = country;
             String code = String.valueOf(response.statusCode());
             return new WeatherData(weatherCondition, weatherDescription, temp, feelsLike, humidity, windSpeed, windDir, cloudiness, city, country, code);
         } catch(IOException | InterruptedException e){

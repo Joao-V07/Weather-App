@@ -12,7 +12,7 @@ public class WeatherController {
 
             }
             Location location = formatter.formatInput(input);
-            Coordinates coords = geocoder.APIGCRequest(location.city, location.country);
-            return weatherApi.APIRequest(coords.lat, coords.lon);
+            GeoResult coords = geocoder.APIGCRequest(location.city, location.country);
+            return weatherApi.APIRequest(coords.lat, coords.lon, coords.city, coords.country);
     }
 }

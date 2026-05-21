@@ -222,7 +222,7 @@ JButton returnBtn = new JButton();
     }
 
     private void APIErrorHandling(WeatherData data){
-        if (data.code.equals("400")) JOptionPane.showMessageDialog(null, "There was a problem with the App's Logic, please contact the .", "City name is empty", JOptionPane.WARNING_MESSAGE);
+        if (data.code.equals("400")) JOptionPane.showMessageDialog(null, "The City entered does not exist it's miswritten, please use the appropriate writing format and try again.", "City name is empty", JOptionPane.WARNING_MESSAGE);
     }
 }
 
