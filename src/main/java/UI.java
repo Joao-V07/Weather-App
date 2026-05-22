@@ -2,8 +2,6 @@ import models.WeatherData;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 
 public class UI {
@@ -13,7 +11,6 @@ JButton searchBtn;
 JLabel title;
 JLabel shadow;
 JLabel guideLbl;
-
 JLabel temp;
 JLabel feelsLike;
 JLabel weather;
@@ -58,12 +55,12 @@ JButton returnBtn = new JButton();
             shadow.setHorizontalAlignment(SwingConstants.CENTER);
             shadow.setForeground(Color.BLACK);
 
-        searchBox = new JTextField("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
-            searchBox.setForeground(Color.GRAY);
+        searchBox = new JTextField();
+            searchBox.setForeground(Color.BLACK);
             centralizeAndAdd(searchBox, 250, 380, 40, searchPanel);
 
-        guideLbl = new JLabel("Type the name of the city you're looking for:");
-            centralizeAndAdd(guideLbl, 220, 300, 20, searchPanel);
+        guideLbl = new JLabel("Type the location this way: \"city\" or \"city, Country\"");
+            centralizeAndAdd(guideLbl, 220, 350, 20, searchPanel);
             guideLbl.setFont(new Font("Open Sans", Font.BOLD, 13));
             guideLbl.setHorizontalAlignment(SwingConstants.CENTER);
     }
@@ -149,7 +146,6 @@ JButton returnBtn = new JButton();
 
     void addActions(){
         searchBtnClicked();
-        focusListener();
         returnBtnClicked();
     }
 
@@ -166,63 +162,39 @@ JButton returnBtn = new JButton();
         createResultComponents();
         addActions();
         frame.setVisible(true);
-        SwingUtilities.invokeLater(() -> searchBtn.requestFocusInWindow());
     }
 
     private void searchBtnClicked(){
-        searchBtn.addActionListener(e -> {
-            WeatherController controller = new WeatherController();
-            if (!searchBox.getText().equals("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)")){
-            WeatherData data = controller.search(searchBox.getText());
-            if (data != null && data.code.equals("200")) {
-                updateResultComponents(data);
-                cardLayout.show(mainPanel, "result");}}
-            else {
-
-            }
-                });
-        searchBox.addActionListener(e ->{
-
-            cardLayout.show(mainPanel, "result");
-        });
+        searchBtn.addActionListener(e -> HandleSearch());
+        searchBox.addActionListener(e -> HandleSearch());
 
     }
 
     private void returnBtnClicked(){
         returnBtn.addActionListener(e -> {
-            searchBox.setText("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
-
+            searchBox.setText("");
             cardLayout.show(mainPanel, "search");
         });
     }
-
-    private void focusListener(){
-        searchBox.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (searchBox.getText().equals("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)")) {
-                    searchBox.setText("");
-                    searchBox.setForeground(Color.BLACK);
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                    if (searchBox.getText().isEmpty()){
-                        searchBox.setText("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)");
-                        searchBox.setForeground(Color.GRAY);
-            }
-        }
-    });
-
-        }
 
     private void setSize(JComponent comp, int x, int y){
         Dimension pref = comp.getPreferredSize();
         comp.setBounds(x, y, pref.width + 10, pref.height + 1);
     }
 
-    private void APIErrorHandling(WeatherData data){
-        if (data.code.equals("400")) JOptionPane.showMessageDialog(null, "The City entered does not exist it's miswritten, please use the appropriate writing format and try again.", "City name is empty", JOptionPane.WARNING_MESSAGE);
+    private void HandleSearch(){
+        try {
+            WeatherController controller = new WeatherController();
+            if (!searchBox.getText().equals("Enter \"City\" or \"City, Country\" (e.g. Sydney or Rio de Janeiro, BR)")) {
+                WeatherData data = controller.search(searchBox.getText());
+                updateResultComponents(data);
+                cardLayout.show(mainPanel, "result");
+            } else {
+                JOptionPane.showMessageDialog(mainPanel, "You must enter at least a city name");
+            }
+        } catch (ExceptionHandling ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
 

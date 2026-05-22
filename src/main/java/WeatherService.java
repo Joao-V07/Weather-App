@@ -15,8 +15,9 @@ public class WeatherService {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
         try{
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            GeocodingService geo = new GeocodingService();
+            geo.checkStatusCode(response);
             String body = response.body();
-            System.out.println(body);
             JsonObject json = JsonParser.parseString(body).getAsJsonObject();
             JsonObject main = json.get("main").getAsJsonObject();
             String weatherCondition = json.get("weather").getAsJsonArray().get(0).getAsJsonObject().get("main").getAsString();

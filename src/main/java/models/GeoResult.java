@@ -1,3 +1,5 @@
+package models;
+
 public class GeoResult {
 public String city;
 public String country;
