@@ -11,6 +11,12 @@ public class GeocodingService {
     String apiKey = System.getenv("GEO_CODING_KEY");
     HttpClient client = HttpClient.newHttpClient();
 
+    /**
+     * Makes the Geocoding API's request and assigns necessary data into variables.
+     * @param city City name provided by the user.
+     * @param countryCode Country code provided by the "countryNameToCode" method.
+     * @return Location's coordinates and
+     */
     public GeoResult APIGCRequest(String city, String countryCode) {
         String url = BuildURL(city, countryCode);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
@@ -26,13 +32,19 @@ public class GeocodingService {
             double lon = array.get(0).getAsJsonObject().get("lon").getAsDouble();
             return new GeoResult(cityName, countryName, lat, lon);
         } catch (InterruptedException e) {
-            throw new ExceptionHandling("Connection interrupted, please try again.");
+            throw new ExceptionHandling("the connection was interrupted, please try again.");
         }
         catch (IOException e) {
             throw new ExceptionHandling("There was a connection error, please check your internet and try again.");
         }
     }
 
+    /**
+     * Builds the API's URL to make the coordinates request.
+     * @param city City name provided by the user.
+     * @param country COuntry name provided by the user.
+     * @return API's URL.
+     */
     private String BuildURL(String city, String country){
         String url = "http://api.openweathermap.org/geo/1.0/direct?q=" + city
                      + "," + country;
@@ -40,6 +52,10 @@ public class GeocodingService {
         return url;
     }
 
+    /**
+     * Throws assigned exceptions based on the API's status code.
+     * @param response API's response.
+     */
     public void checkStatusCode(HttpResponse<String> response){
         int statusCode = response.statusCode();
         if (statusCode == 401)throw new ExceptionHandling("There was an error with the App, please contact the administrator.");
