@@ -15,15 +15,20 @@ public class GeocodingService {
      * Makes the Geocoding API's request and assigns necessary data into variables.
      * @param city City name provided by the user.
      * @param countryCode Country code provided by the "countryNameToCode" method.
-     * @return Location's coordinates and
+     * @return Location's city and country's name and coordinates(e.g. São Paulo, Brazil, -23.5475, -46.6361)
      */
     public GeoResult APIGCRequest(String city, String countryCode) {
         String url = BuildURL(city, countryCode);
+        // Builds the API request.
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
         try {
+            // Sends the API request and assigns its response to a variable.
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            // Checks what is the API's status code and throws an exception if there was a problem.
             checkStatusCode(response);
             String body = response.body();
+            // Navigates through the API's response and extracts necessary data,
+            // and checks if it's empty.
             JsonArray array = JsonParser.parseString(body).getAsJsonArray();
             if (array.isEmpty()) throw new ExceptionHandling("City not found, please check your city name and try again.");
             String cityName = array.get(0).getAsJsonObject().get("name").getAsString();
@@ -31,6 +36,7 @@ public class GeocodingService {
             double lat = array.get(0).getAsJsonObject().get("lat").getAsDouble();
             double lon = array.get(0).getAsJsonObject().get("lon").getAsDouble();
             return new GeoResult(cityName, countryName, lat, lon);
+          // Catches any connection or interruption error.
         } catch (InterruptedException e) {
             throw new ExceptionHandling("the connection was interrupted, please try again.");
         }
