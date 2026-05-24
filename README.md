@@ -16,7 +16,7 @@ An app that shows the current weather data of any city in the world.
 - Search just the city name or city, country (e.g. Sydney or Sydney, Australia)
 - Displays temperature, feels like, min/max temperature
 - Displays humidity, wind speed, wind direction
-- Dispays weather condition and description
+- Displays weather condition and description
 
 ## Setup
 1. Clone the repository
