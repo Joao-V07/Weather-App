@@ -1,8 +1,8 @@
 # WEATHER APP
 An app that shows the current weather data of any city in the world.
 
-![App Screenshot]<img width="982" height="563" alt="Screenshot1" src="https://github.com/user-attachments/assets/fcf9e128-26e6-44be-9bc8-e73a003ad103" />
-![App Screenshot]<img width="977" height="562" alt="Screenshot2" src="https://github.com/user-attachments/assets/2d574305-f158-4ce7-baf6-b34798d4b1a5" />
+![App Screenshot](Screenshot1.png)
+![App Screenshot](Screenshot2.png)
 
 ## Technologies
 - Java
@@ -16,7 +16,7 @@ An app that shows the current weather data of any city in the world.
 - Search just the city name or city, country (e.g. Sydney or Sydney, Australia)
 - Displays temperature, feels like, min/max temperature
 - Displays humidity, wind speed, wind direction
-- Dispays weather condition and description
+- Displays weather condition and description
 
 ## Setup
 1. Clone the repository
