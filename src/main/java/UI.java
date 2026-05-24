@@ -1,5 +1,4 @@
 import models.WeatherData;
-
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.JOptionPane;
@@ -27,7 +26,9 @@ JPanel searchPanel = new JPanel(null);
 JPanel resultPanel = new JPanel(null);
 JButton returnBtn = new JButton();
 
-
+    /**
+     * Creates the UI's frame and the search and result panels.
+     */
     void createFrame(){
         frame = new JFrame("Weather App");
         frame.setSize(800, 500);
@@ -40,6 +41,9 @@ JButton returnBtn = new JButton();
         frame.add(mainPanel);
     }
 
+    /**
+     * creates the Components for the search panel and adds them to it.
+     */
     void createSearchComponents(){
         searchBtn = new JButton("Search");
             centralizeAndAdd(searchBtn, 350, 100, 40, searchPanel);
@@ -65,6 +69,9 @@ JButton returnBtn = new JButton();
             guideLbl.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
+    /**
+     * Creates the components for the result panel and adds them to it.
+     */
     void createResultComponents(){
     temp = new JLabel("00°");
         temp.setFont(new Font("SansSerif", Font.PLAIN, 120));
@@ -110,6 +117,10 @@ JButton returnBtn = new JButton();
         centralizeAndAdd(returnBtn, 400, 225, 50, resultPanel);
     }
 
+    /**
+     * Adds the weather data to the components from the result panel.
+     * @param data Weather data.
+     */
     void updateResultComponents(WeatherData data){
         this.temp.setText(data.temp + "°");
         setSize(temp, 100, 1);
@@ -132,7 +143,11 @@ JButton returnBtn = new JButton();
         this.country.setText(data.country);
         setSize(country, city.getWidth() + city.getX() - 5, 130);
     }
-
+    /**
+     * Converts the amount of degrees the Location's wind is blowing to Directions (e.g. 45° becomes Northeast)
+     * @param degrees amount of degrees the wind is blowing as integer.
+     * @return Direction the wind is blowing as String.
+     */
     String convertWindDir(int degrees){
         if (degrees >= 338  || degrees < 23) return "North";
         if (degrees < 68) return "Northeast";
@@ -144,11 +159,21 @@ JButton returnBtn = new JButton();
         else return "Northwest";
     }
 
+    /**
+     * Calls for the methods responsible for updating the UI whenever the user clicks on a button.
+     */
     void addActions(){
         searchBtnClicked();
         returnBtnClicked();
     }
-
+    /**
+     * Horizontally centralizes and adds a component to the panel based on it's size and the frame's size.
+     * @param component The component you wish to centralize and add.
+     * @param y The components Y position.
+     * @param w The components width.
+     * @param h The components height.
+     * @param panel The panel the component is located at.
+     */
     void centralizeAndAdd(JComponent component, int y, int w, int h, JPanel panel){
         component.setSize(w, h);
         int x = (frame.getWidth() - component.getWidth()) / 2;
@@ -156,6 +181,9 @@ JButton returnBtn = new JButton();
         panel.add(component);
     }
 
+    /**
+     * Calls for the methods that creates and adds the frame, panels, components and actions.
+     */
     public void createUI(){
         createFrame();
         createSearchComponents();
@@ -163,13 +191,18 @@ JButton returnBtn = new JButton();
         addActions();
         frame.setVisible(true);
     }
-
+    /**
+     * Calls for the method responsible for doing the search and updating the UI with the weather data whenever user presses the search button or clicks "Enter"
+     */
     private void searchBtnClicked(){
         searchBtn.addActionListener(e -> HandleSearch());
         searchBox.addActionListener(e -> HandleSearch());
 
     }
 
+    /**
+     * Returns to the search panel whenever the user clicks on the return button.
+     */
     private void returnBtnClicked(){
         returnBtn.addActionListener(e -> {
             searchBox.setText("");
@@ -177,11 +210,19 @@ JButton returnBtn = new JButton();
         });
     }
 
+    /**
+     * Sets the location and preferred size of a component based on its Text.
+     * @param comp The target component.
+     * @param x The chosen X position of the component.
+     * @param y The chosen Y position of the component.
+     */
     private void setSize(JComponent comp, int x, int y){
         Dimension pref = comp.getPreferredSize();
         comp.setBounds(x, y, pref.width + 10, pref.height + 1);
     }
-
+    /**
+     * Handles the weather data search by sending the user's input to the search method, updating components texts, changing the panel and handling exceptions.
+     */
     private void HandleSearch(){
         try {
             WeatherController controller = new WeatherController();
